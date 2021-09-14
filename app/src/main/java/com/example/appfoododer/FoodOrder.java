@@ -2,6 +2,7 @@ package com.example.appfoododer;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.databinding.DataBindingUtil;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,13 +17,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.appfoododer.databinding.ActivityFoodOrderBinding;
+
 import java.util.ArrayList;
 
 public class FoodOrder extends AppCompatActivity {
-    ImageView imgGioHang;
-    TextView txtSoLuong , txtMoney,txtThanks;
-    ListView lvSanPham;
-    Button btnOder;
+    ActivityFoodOrderBinding binding;
+//    ImageView imgGioHang;
+//    TextView txtSoLuong , txtMoney,txtThanks;
+//      ListView lvSanPham;
+//    Button btnOder;
     int dem = 0;
     int tien = 0;
     int vitri = -1;
@@ -35,8 +39,8 @@ public class FoodOrder extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_food_order);
-        anhxa();
+       binding = DataBindingUtil.setContentView(this,R.layout.activity_food_order);
+//        anhxa();
         arrayList = new ArrayList<>();
         arrayListGioHang = new ArrayList<>();
         arrayList.add(new Fooder("Pizza Panda",0));
@@ -51,19 +55,19 @@ public class FoodOrder extends AppCompatActivity {
         if (bundle1 != null) {
             arrayListGioHang = bundle1.getParcelableArrayList("data");
         }
-        lvSanPham.setAdapter(adapter);
+        binding.lvSanPham.setAdapter(adapter);
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         editor = sharedPreferences.edit();
         tien = sharedPreferences.getInt("saveMoney",0);
         dem = sharedPreferences.getInt("saveNumber",0);
-        txtSoLuong.setText(dem+"");
+        binding.txtSoLuong.setText(dem+"");
 
-        txtMoney.setText(tien+"$");
+        binding.txtMoney.setText(tien+"$");
        
-        btnOder.setOnClickListener(new View.OnClickListener() {
+        binding.btnOder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtThanks.setText("Thanks you! Your order is sent to restaurant !");
+                binding.txtThanks.setText("Thanks you! Your order is sent to restaurant !");
 //                txtSoLuong.setText(0+"");
 //                LuuSoLuong();
 //                txtMoney.setText(0+"$");
@@ -75,7 +79,7 @@ public class FoodOrder extends AppCompatActivity {
 
             }
         });
-        imgGioHang.setOnClickListener(new View.OnClickListener() {
+        binding.imgGioHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -92,15 +96,15 @@ public class FoodOrder extends AppCompatActivity {
                 }
         });
 
-        lvSanPham.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        binding.lvSanPham.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dem += 1;
                 tien += 10;
                 LuuSoLuong();
-                txtSoLuong.setText(dem+"");
+                binding.txtSoLuong.setText(dem+"");
                 LuuTien();
-                txtMoney.setText(tien+"$");
+                binding.txtMoney.setText(tien+"$");
                 vitri = position;
 
                 themvaogiohang(arrayList.get(position),arrayListGioHang);
@@ -130,12 +134,12 @@ public class FoodOrder extends AppCompatActivity {
         editor.putInt("saveNumber",dem);
         editor.commit();
     }
-    private void anhxa() {
-        imgGioHang = (ImageView) findViewById(R.id.imgGioHang);
-        txtSoLuong = (TextView) findViewById(R.id.txtSoLuong);
-        txtMoney = (TextView) findViewById(R.id.txtMoney);
-        lvSanPham = (ListView) findViewById(R.id.lvSanPham);
-        btnOder = (Button) findViewById(R.id.btnOder);
-        txtThanks = (TextView) findViewById(R.id.txtThanks);
-    }
+//    private void anhxa() {
+//        imgGioHang = (ImageView) findViewById(R.id.imgGioHang);
+//        txtSoLuong = (TextView) findViewById(R.id.txtSoLuong);
+//        txtMoney = (TextView) findViewById(R.id.txtMoney);
+//        lvSanPham = (ListView) findViewById(R.id.lvSanPham);
+//        btnOder = (Button) findViewById(R.id.btnOder);
+//        txtThanks = (TextView) findViewById(R.id.txtThanks);
+//    }
 }
